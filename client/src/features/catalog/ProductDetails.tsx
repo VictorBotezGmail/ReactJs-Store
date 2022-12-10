@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "../../app/models/product";
 
-export default function ProductDetails() {
+const ProductDetails = () =>   {
     const { id } = useParams<{ id: string }>();
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
@@ -74,6 +74,8 @@ export default function ProductDetails() {
             </Grid>
 
         </Grid>
-    )
+    );
 
-}
+};
+
+export default ProductDetails;

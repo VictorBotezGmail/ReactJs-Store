@@ -1,99 +1,131 @@
-import { ShoppingCart } from "@mui/icons-material";
-import { AppBar, Badge, Box, IconButton, List, ListItem, Switch, Toolbar, Typography } from "@mui/material"
-import { NavLink } from "react-router-dom";
+import { ShoppingCart } from '@mui/icons-material';
+import {
+  AppBar,
+  Badge,
+  IconButton,
+  List,
+  ListItem,
+  Switch,
+  Toolbar,
+  Typography,
+  Box,
+} from '@mui/material';
+import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
-interface Props{ darkMode:boolean;  handleThemeChange: () => void;}
 
-const midLinks = [
 
-    {title: 'catalog', path: '/catalog'},
-    {title: 'about', path: '/about'},
-    {title: 'contact', path: '/contact'}
-]
+
+interface Props {
+  darkMode: boolean;
+  switchDarkMode: (dark: boolean) => void;
+}
 
 const rightLinks = [
+  { title: 'login', path: '/login' },
+  { title: 'register', path: '/register' },
+];
 
-    {title: 'login', path: '/login'},
-    {title: 'register', path: '/register'}
-    
-]
+const midLinks = [
+  { title: 'catalog', path: '/catalog' },
+  { title: 'about', path: '/about' },
+  { title: 'contact', path: '/contact' },
+  { title: 'checkout', path: '/checkout' },
+];
 
+// https://mui.com/customization/color/
 const navStyles = {
-    color:'inherit',
-    textDecoration:'none',
-    Typography:'h6',
-    '&:hover':
-    {
-        color:'gray.500'
-    },
-    '&.active':
-    {
-        color: 'text.secondary'
-    }
-    }
+  color: 'inherit',
+  textDecoration: 'none',
+  typography: 'h6',
+  '&:hover': {
+    color: 'grey.500',
+  },
+  '&.active': {
+    color: 'text.secondary',
+  },
+};
 
-export default function Header({darkMode, handleThemeChange}:Props)
-{
-    return 
-    (
-        <AppBar position='static' sx={{mb: 4}}>
-             <Toolbar sx={{display:'flex',justifyContent:'space-between', alignItems:'center'}}>
-            
-            <Box display='flex' alignItems= 'center'>
-                <Typography variant = 'h6' component={NavLink} to='/' exact 
-                    sx={navStyles}>
-                    REACT -STORE
-                </Typography>
-                <Switch checked={darkMode} onChange={handleThemeChange} />
-            </Box>
-        
-            <List sx={{display: 'flex'}}>
+const Header: React.FC<Props> = ({ darkMode, switchDarkMode }) => {
+  // const dispatch = useAppDispatch();
+  
 
-                {midLinks.map(({title,path}) => (
+  const handleSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    switchDarkMode(event.target.checked);
+  };
 
-                    <ListItem >
-                         component={NavLink}
-                        to={path}
-                        key= {path}
-                        sx={navStyles}
-                        {title.toUpperCase()}
-                    </ListItem>
+  // useEffect(() => {
+  //   dispatch(fetchCurrentUser());
+  // }, [dispatch]);
 
-                ))}
-                    
+  return (
+    <AppBar position="static" sx={{ mb: 4 }}>
+      <Toolbar
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        {/* 1 group left  
+        https://mui.com/system/box/
+         -> System props 
+          -> https://mui.com/system/properties/
+        */}
+        <Box display="flex" alignItems="center">
+          <Typography
+            variant="h6"
+            component={NavLink}
+            to="/"
+            exact
+            sx={navStyles}
+          >
+            RE-STORE
+          </Typography>
+          <Switch color="default" checked={darkMode} onChange={handleSwitch} />
+        </Box>
+        {/* 2 group mid */}
+        <Box display="flex" alignItems="center">
+          <List sx={{ display: 'flex' }}>
+            {midLinks.map(({ title, path }) => (
+              <ListItem component={NavLink} to={path} key={path} sx={navStyles}>
+                {title.toUpperCase()}
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+        {/* 3 group right  */}
+        <Box display="flex" alignItems="center">
+          <IconButton
+            component={Link}
+            to="/basket"
+            size="large"
+            sx={{ color: 'inherits' }}
+          >
+            <Badge badgeContent={4} color="secondary">
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
+
+
+          
+            <List sx={{ display: 'flex' }}>
+              {rightLinks.map(({ title, path }) => (
+                <ListItem
+                  component={NavLink}
+                  to={path}
+                  key={path}
+                  sx={navStyles}
+                >
+                  {title.toUpperCase()}
+                </ListItem>
+              ))}
             </List>
+          
+        </Box>
+      </Toolbar>
+    </AppBar>
+  );
+};
 
-            <Box display='flex' alignItems='center'>
-                <IconButton size='large' sx={{color:'inherit'}}>
-                    <Badge badgeContent={4} color ='secondary'>
-
-                        <ShoppingCart></ShoppingCart>
-                    </Badge>
-                </IconButton>
-
-                <List sx={{display: 'flex'}}>
-
-                    {rightLinks.map(({title,path}) => (
-
-                        <ListItem >
-
-                            component={NavLink}
-                            to={path}
-                            key= {path}
-                            sx={navStyles}
-                            {title.toUpperCase()}
-                        </ListItem>
-
-                     ))}
-                    
-                </List>
-                
-            </Box>
-
-        </Toolbar>
-
-     </AppBar>
-
-    )
-
-}
+export default Header;

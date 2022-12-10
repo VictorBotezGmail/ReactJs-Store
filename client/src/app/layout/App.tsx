@@ -4,12 +4,13 @@ import { useState } from "react";
 import { Route } from "react-router-dom";
 import AboutPage from "../../features/about/AboutPage";
 import Catalog from "../../features/catalog/Catalog";
+import ProductCard from "../../features/catalog/ProductCard";
 import ProductDetails from "../../features/catalog/ProductDetails";
 import ContactPage from "../../features/contact/ContactPage";
 import HomePage from "../../features/home/HomePage";
 import Header from "./Header";
 
-function App() {
+const App = ()  =>{
 
   const [darkMode, setDarkMode] = useState(false);
   const paletteType = darkMode ? 'dark' : 'light';
@@ -26,7 +27,7 @@ function App() {
     
     }})
   
-    function handleThemeChange()
+    function switchDarkMode()
     {
         setDarkMode(!darkMode);
 
@@ -36,18 +37,20 @@ function App() {
   (
     <ThemeProvider theme={theme} >
       <CssBaseline />
-      <Header darkMode={darkMode} handleThemeChange={handleThemeChange}/>
+      <Header darkMode={darkMode} switchDarkMode={switchDarkMode}/>
 
       <Container>
-        <Route exact path='/' component={HomePage} />
-        <Route path='/catalog' component={Catalog} />
-        <Route path='/catalog/:id' component={ProductDetails} />
-        <Route path='/about' component={AboutPage} />
-        <Route path='/contact' component={ContactPage} />
+      <Route exact path="/" component={HomePage} />
+          <Route exact path="/catalog" component={Catalog} />
+          <Route path="/catalog/:id" component={ProductDetails} />
+          <Route path="/about" component={AboutPage} />
+          <Route path="/contact" component={ContactPage} />
+      
       </Container>
 
     </ThemeProvider>
   );
-}
+};
 
 export default App;
+
